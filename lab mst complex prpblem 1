@@ -1,0 +1,34 @@
+public class MatchFinder {
+    public String matchFound(String input1, String input2) {
+        String[] words = input2.split(":");
+        StringBuilder output1 = new StringBuilder();
+
+        for (String word : words) {
+            if (word.length() == input1.length()) {
+                boolean match = true;
+                for (int i = 0; i < word.length(); i++) {
+                    if (input1.charAt(i) != '_' && input1.charAt(i) != word.charAt(i)) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    if (output1.length() > 0) {
+                        output1.append(":");
+                    }
+                    output1.append(word.toUpperCase());
+                }
+            }
+        }
+
+        return output1.toString();
+    }
+
+    public static void main(String[] args) {
+        MatchFinder mf = new MatchFinder();
+        String input1 = "b_t";
+        String input2 = "bat:bit:but:bot:bet:cat";
+        String output = mf.matchFound(input1, input2);
+        System.out.println(output); // Output: BAT:BIT:BUT:BOT:BET
+    }
+}
