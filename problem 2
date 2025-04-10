@@ -1,0 +1,51 @@
+public class StringTransformer {
+    public String transform(String input) {
+        StringBuilder output = new StringBuilder();
+        int len = input.length();
+
+        for (int i = 0; i < len; i++) {
+            char ch1 = input.charAt(i);
+            output.append(Character.toLowerCase(ch1));
+
+            if (i < len - 1) {
+                char ch2 = input.charAt(i + 1);
+
+                // Rule (ii) and (iv): Keep digits and spaces unchanged
+                if (!Character.isLetter(ch1) || !Character.isLetter(ch2)) {
+                    continue;
+                }
+
+                int val1 = getAlphabetValue(ch1);
+                int val2 = getAlphabetValue(ch2);
+                int sum = val1 + val2;
+                int mod = sum % 26;
+
+                if (mod == 0) {
+                    output.append('0');
+                } else {
+                    char newChar = (char) ('a' + mod - 1);
+                    output.append(newChar);
+                }
+            }
+        }
+
+        return output.toString();
+    }
+
+    private int getAlphabetValue(char ch) {
+        ch = Character.toLowerCase(ch);
+        return ch - 'a' + 1;
+    }
+
+    public static void main(String[] args) {
+        StringTransformer st = new StringTransformer();
+
+        System.out.println(st.transform("ay"));       // a0y
+        System.out.println(st.transform("ac"));       // adc
+        System.out.println(st.transform("12"));       // 12
+        System.out.println(st.transform("1a"));       // 1a
+        System.out.println(st.transform("ac 12a"));   // adc 12a
+        System.out.println(st.transform("AZ"));       // a0z
+        System.out.println(st.transform("AzC"));      // a0zc
+    }
+}
